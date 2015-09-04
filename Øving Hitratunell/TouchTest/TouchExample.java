@@ -17,14 +17,14 @@ public class TouchExample {
 
     SimpleTouch touch=new SimpleTouch(sensor);
 
-	Motor.A.setSpeed(900);
-	Motor.B.setSpeed(900);
+	Motor.A.setSpeed(200);
+	Motor.B.setSpeed(200);
 	Motor.A.forward();
 	Motor.B.forward();
 
     while (touch.isPressed()) {
 	  System.out.println("Bilen er fortsatt på banen!");
-      Delay.msDelay(500);
+      Delay.msDelay(50);
     }
     System.out.println("Bilen er utenfor banen!");
     Motor.A.stop();

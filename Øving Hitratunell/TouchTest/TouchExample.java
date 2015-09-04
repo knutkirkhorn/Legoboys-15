@@ -13,13 +13,11 @@ public class TouchExample {
     Brick brick = BrickFinder.getDefault();
     Port s2 = brick.getPort("S2");
     EV3TouchSensor sensor = new EV3TouchSensor(s2);
-    sensor.getTouchMode();
 
     SimpleTouch touch=new SimpleTouch(sensor);
-	Boolean fortsett = true;
 
-    while (fortsett) {
-		touch.isPressed();
+
+    while (touch.isPressed()) {
 	  System.out.println("Bilen er fortsatt på banen!");
       Delay.msDelay(500);
     }
@@ -40,7 +38,6 @@ public class TouchExample {
 
   public boolean isPressed() {
     super.fetchSample(sample, 0);
-    System.out.println("Sample: " + sample[0]);
     if (sample[0] == 0)
       return false;
     return true;

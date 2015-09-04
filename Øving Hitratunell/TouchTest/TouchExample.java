@@ -5,6 +5,7 @@ import lejos.hardware.BrickFinder;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.utility.Delay;
+import lejos.hardware.motor.*;
 
 
 public class TouchExample {
@@ -16,12 +17,18 @@ public class TouchExample {
 
     SimpleTouch touch=new SimpleTouch(sensor);
 
+	Motor.A.setSpeed(900);
+	Motor.B.setSpeed(900);
+	Motor.A.forward();
+	Motor.B.forward();
 
     while (touch.isPressed()) {
 	  System.out.println("Bilen er fortsatt på banen!");
       Delay.msDelay(500);
     }
     System.out.println("Bilen er utenfor banen!");
+    Motor.A.stop();
+    Motor.B.stop();
 
     sensor.close();
 

@@ -6,20 +6,20 @@ import lejos.hardware.Button;
 import lejos.robotics.SampleProvider;
 import lejos.hardware.sensor.NXTUltrasonicSensor;
 
-public class Ultrasonictest
+public class Ultrasonictest1
 {
 	 public static void main (String[] args) throws Exception
 	 {
 		 Brick brick = BrickFinder.getDefault();
-		 Port s4 = brick.getPort("S4"); // ultrasonic sensor
+		 //Port s4 = brick.getPort("S4"); // ultrasonic sensor
 		 Port s1 = brick.getPort("S1"); // NXT ultrasonic sensor
 
 		 RaveUltrasonicSensorNXT ultraNXT = new RaveUltrasonicSensorNXT (s1);
-		 RaveUltrasonicSensor ultra = new RaveUltrasonicSensor(s4);
+		 //RaveUltrasonicSensor ultra = new RaveUltrasonicSensor(s4);
 
 		 while (!Button.ESCAPE.isDown())
 		 {
-		 		 System.out.println(ultra.getDistance());
+		 		 //System.out.println(ultra.getDistance());
 		 		 System.out.println("NXT" + ultraNXT.getDistance());
 		 }
 	 }

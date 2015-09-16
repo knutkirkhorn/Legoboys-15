@@ -24,27 +24,37 @@ class Ultrasonictest2
 		 RaveUltrasonicSensorNXT ultra2 = new RaveUltrasonicSensorNXT(sPortNxt);
 
 		 DifferentialPilot pilot = new DifferentialPilot(56f, 126f, Motor.A, Motor.B);
-		 pilot.setTravelSpeed(200);
+		 pilot.setTravelSpeed(50);
 
 		 Sound.setVolume(100);
-		 File fil = new File("MorganJ_-_Madda_Fakka_Original_Mix_.wav");//Darude_Sandstorm.wav");
+
+		 Runnable task = new Runnable() {
+			 public void run() {
+				 try{
+				 	File fil = new File("MorganJ_-_Madda_Fakka_Original_Mix_.wav");
+				 	int wavfilelength = LagLyd(fil);
+				 	} catch (Exception ex){
+						System.out.println(ex);
+					}
+				}
+				 };
+		new Thread(task).start();
+
+		 //File fil = new File("MorganJ_-_Madda_Fakka_Original_Mix_.wav");//Darude_Sandstorm.wav");
 		 //int wavfilelength = LagLyd(fil);
 
 		 float avstand = 0.2f;
 		 boolean venstreSist = false;
 
 		 while (!Button.ESCAPE.isDown()) {
-			 System.out.println(ultra2.getDistance());
-
 			 if(ultra.getDistance() < avstand){
-				 System.out.println("ROTER");
-				 if(venstreSist){
-					 	pilot.stop();
-					 	pilot.rotate(30);
-					 } else {
-						 pilot.stop();
-						 pilot.rotate(-60);
-			 	}
+				 System.out.println("ROTER VENSTRE");
+				 pilot.stop();
+				 pilot.rotate(30);
+			 } else if (ultra2.getDistance() < avstand) {
+				 pilot.stop();
+				 pilot.rotate(-30);
+				 System.out.println("ROTER HØYRE");
 			 } else {
 				 System.out.println("KJØR FRAM");
 				 if(!pilot.isMoving()){

@@ -31,7 +31,7 @@ class Ultrasonictest2
 		 Runnable task = new Runnable() {
 			 public void run() {
 				 try{
-				 	File fil = new File("MorganJ_-_Madda_Fakka_Original_Mix_.wav");
+				 	File fil = new File("musikk.wav");
 				 	int wavfilelength = LagLyd(fil);
 				 	} catch (Exception ex){
 						System.out.println(ex);
@@ -44,23 +44,33 @@ class Ultrasonictest2
 		 //int wavfilelength = LagLyd(fil);
 
 		 float avstand = 0.2f;
-		 boolean venstreSist = false;
 
-		 while (!Button.ESCAPE.isDown()) {
-			 if(ultra.getDistance() < avstand){
+		 while (!Button.ESCAPE.isDown())
+		 {
+			 try
+			 {
+				 if(ultra.getDistance() < avstand){
 				 System.out.println("ROTER VENSTRE");
 				 pilot.stop();
-				 pilot.rotate(30);
-			 } else if (ultra2.getDistance() < avstand) {
+				 pilot.rotate(30, true);
+			 }
+			 else if (ultra2.getDistance() < avstand)
+			 {
 				 pilot.stop();
-				 pilot.rotate(-30);
+				 pilot.rotate(-30, true);
 				 System.out.println("ROTER HØYRE");
-			 } else {
+			 }
+			 else
+			 {
 				 System.out.println("KJØR FRAM");
-				 if(!pilot.isMoving()){
+				 if(!pilot.isMoving())
+				 {
 					 pilot.forward();
 				 }
 			 }
-		 }
+		 } catch (Exception ex) {
+			 System.out.println(ex);
+	}
+}
 	 }
 }

@@ -16,5 +16,6 @@ class RettFram
 		 DifferentialPilot pilot = new DifferentialPilot(56f, 126f, Motor.A, Motor.B);
 		 pilot.setTravelSpeed(600);
 		 pilot.forward();
+		 Thread.sleep(10000);
 	 }
 }

@@ -1,13 +1,8 @@
 import lejos.hardware.sensor.NXTUltrasonicSensor;
-import lejos.hardware.BrickFinder;
-import lejos.hardware.Brick;
-import lejos.hardware.port.Port;
-import lejos.hardware.Button;
 import lejos.robotics.SampleProvider;
+import lejos.hardware.port.Port;
 
-// Returnerer avstanden til hindringer i meter. Maks avstand er 2.5, mer enn det blir infinity
-
-class RaveUltrasonicSensorNXT
+public class RaveUltrasonicSensorNXT
 {
 	private NXTUltrasonicSensor sensor;
 	private SampleProvider sampler;
@@ -16,8 +11,9 @@ class RaveUltrasonicSensorNXT
 	public RaveUltrasonicSensorNXT(Port port)
 	{
 		sensor = new NXTUltrasonicSensor(port);
-		sampler = sensor.getDistanceMode();
-		sample = new float[sampler.sampleSize()]; // LYD
+		//sensor.enable();
+		sampler = sensor.getPingMode();
+		sample = new float[sampler.sampleSize()];
 	}
 
 	public float getDistance()

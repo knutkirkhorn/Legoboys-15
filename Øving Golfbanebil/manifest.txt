@@ -1,0 +1,4 @@
+Class-Path: /home/root/lejos/lib/ev3/ev3classes.jar /home/root/lejos/l
+ ib/ev3/dbusjava.jar
+Main-Class: Ultrasonictest2
+

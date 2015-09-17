@@ -44,21 +44,28 @@ class Ultrasonictest2
 		 //int wavfilelength = LagLyd(fil);
 
 		 float avstand = 0.2f;
+		 int teller = 0;
 
 		 while (!Button.ESCAPE.isDown())
 		 {
 			 try
 			 {
+				 if(teller == 3){
+					 pilot.backward();
+				 } else {
+
 				 if(ultra.getDistance() < avstand){
 				 System.out.println("ROTER VENSTRE");
 				 pilot.stop();
-				 pilot.rotate(30, true);
+				 pilot.rotate(45, true);
+				 teller++;
 			 }
 			 else if (ultra2.getDistance() < avstand)
 			 {
 				 pilot.stop();
 				 pilot.rotate(-30, true);
 				 System.out.println("ROTER HØYRE");
+				 teller++;
 			 }
 			 else
 			 {
@@ -66,8 +73,10 @@ class Ultrasonictest2
 				 if(!pilot.isMoving())
 				 {
 					 pilot.forward();
+					 teller = 0;
 				 }
 			 }
+		 }
 		 } catch (Exception ex) {
 			 System.out.println(ex);
 	}

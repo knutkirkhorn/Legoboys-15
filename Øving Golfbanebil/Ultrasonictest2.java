@@ -24,7 +24,8 @@ class Ultrasonictest2
 		 RaveUltrasonicSensorNXT ultra2 = new RaveUltrasonicSensorNXT(sPortNxt);
 
 		 DifferentialPilot pilot = new DifferentialPilot(56f, 126f, Motor.A, Motor.B);
-		 pilot.setTravelSpeed(50);
+		 pilot.setTravelSpeed(100);
+		 pilot.setRotateSpeed(150);
 
 		 Sound.setVolume(100);
 
@@ -43,27 +44,33 @@ class Ultrasonictest2
 		 //File fil = new File("MorganJ_-_Madda_Fakka_Original_Mix_.wav");//Darude_Sandstorm.wav");
 		 //int wavfilelength = LagLyd(fil);
 
-		 float avstand = 0.2f;
+		 float avstand = 0.13f;
 		 int teller = 0;
 
 		 while (!Button.ESCAPE.isDown())
 		 {
 			 try
 			 {
-				 if(teller == 3){
+				 if(teller >= 5){
 					 pilot.backward();
+					 Thread.sleep(100);
+					 teller = 0;
 				 } else {
 
-				 if(ultra.getDistance() < avstand){
+			float ultraAvstand = ultra.getDistance();
+			float ultra2Avstand = ultra2.getDistance();
+
+			if(ultraAvstand < avstand && ultraAvstand < ultra2Avstand)
+			{
 				 System.out.println("ROTER VENSTRE");
-				 pilot.stop();
-				 pilot.rotate(45, true);
+				 //pilot.stop();
+				 pilot.rotate(45);
 				 teller++;
 			 }
-			 else if (ultra2.getDistance() < avstand)
+			 else if (ultra2Avstand < avstand && ultra2Avstand < ultraAvstand)
 			 {
-				 pilot.stop();
-				 pilot.rotate(-30, true);
+				 //pilot.stop();
+				 pilot.rotate(-30);
 				 System.out.println("ROTER HØYRE");
 				 teller++;
 			 }

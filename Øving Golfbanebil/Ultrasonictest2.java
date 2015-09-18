@@ -4,45 +4,26 @@ import lejos.hardware.port.Port;
 import lejos.hardware.Button;
 import lejos.hardware.motor.*;
 import lejos.robotics.navigation.*;
-import java.io.File;
-import lejos.hardware.Sound;
 
 class Ultrasonictest2
 {
-
-	public static int LagLyd(File fil) throws Exception{
-		return Sound.playSample(fil, 50);
-	}
-
 	 public static void main (String[] args) throws Exception
 	 {
 		 Brick brick = BrickFinder.getDefault();
-		 Port sPort = brick.getPort("S4"); // ultrasonic sensor på port 1
-		 Port sPortNxt = brick.getPort("S1");
+		 Port sPortEV3 = brick.getPort("S4"); //EV3.  -- ultrasonic sensor på port 1
+		 Port sPortNxt = brick.getPort("S1");//NXT
 
-		 RaveUltrasonicSensor ultra = new RaveUltrasonicSensor(sPort);
+		 RaveUltrasonicSensor ultra = new RaveUltrasonicSensor(sPortEV3);
 		 RaveUltrasonicSensorNXT ultra2 = new RaveUltrasonicSensorNXT(sPortNxt);
 
 		 DifferentialPilot pilot = new DifferentialPilot(56f, 126f, Motor.A, Motor.B);
 		 pilot.setTravelSpeed(100);
 		 pilot.setRotateSpeed(150);
 
-		 Sound.setVolume(100);
-
-		 Runnable task = new Runnable() {
-			 public void run() {
-				 try{
-				 	File fil = new File("musikk.wav");
-				 	int wavfilelength = LagLyd(fil);
-				 	} catch (Exception ex){
-						System.out.println(ex);
-					}
-				}
-				 };
-		new Thread(task).start();
-
-		 //File fil = new File("MorganJ_-_Madda_Fakka_Original_Mix_.wav");//Darude_Sandstorm.wav");
-		 //int wavfilelength = LagLyd(fil);
+		 //Prøv om dette virker ;)
+		 //Egen klasse for å spille av lyd
+		 SpillAvLyd sLyd = new SpillAvLyd();
+		 sLyd.startLyd();
 
 		 float avstand = 0.13f;
 		 int teller = 0;
@@ -69,9 +50,9 @@ class Ultrasonictest2
 			 }
 			 else if (ultra2Avstand < avstand && ultra2Avstand < ultraAvstand)
 			 {
+				 System.out.println("ROTER HØYRE");
 				 //pilot.stop();
 				 pilot.rotate(-30);
-				 System.out.println("ROTER HØYRE");
 				 teller++;
 			 }
 			 else

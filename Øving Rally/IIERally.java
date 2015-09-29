@@ -72,7 +72,8 @@ public class IIERally{
 			float lys = lysVerdi[0];
 
 			fargeSample.fetchSample(colorVerdi, 0); //COLOR
-			float color = colorVerdi[0];
+			//float color = colorVerdi[0];
+			int color = fargeSensor.getColorID(); // Fungerer dette?
 
 			lcd.clear();
 			lcd.drawString("NXT " + lys, 0, 0);

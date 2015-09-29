@@ -25,6 +25,7 @@ import lejos.robotics.navigation.*;
 import lejos.hardware.Button;
 import lejos.hardware.sensor.NXTLightSensor;
 import lejos.hardware.lcd.TextLCD;
+import lejos.robotics.Color;
 
 public class IIERally{
 	public static void main (String[] args)  throws Exception{
@@ -45,7 +46,7 @@ public class IIERally{
 		EV3ColorSensor fargeSensor = new EV3ColorSensor(s4); // EV3 LYS
 
 		//COLOR-----------------------------------------------------------------
-		SampleProvider fargeSample = fargeSensor.getMode("RGB");
+		SampleProvider fargeSample = fargeSensor.getColorIDMode();
 		float[] colorVerdi = new float[fargeSample.sampleSize()];
 
 
@@ -58,11 +59,11 @@ public class IIERally{
 
 		//----------------------------------------------------------------------
 
-		Boolean move = true; // Sett til false hvis roboten ikke skal kjøre videre
+		Boolean move = true; // Sett til false hvis roboten ikke skal kjÃ¸re videre
 		//System.out.println("start lokke");
 
-		while (!Button.ESCAPE.isDown()){ // Kjører så lenge vi ikke trykker på exit-knappen
-			// Kjør framover hvis vi ikke allerede gjør det
+		while (!Button.ESCAPE.isDown()){ // KjÃ¸rer sÃ¥ lenge vi ikke trykker pÃ¥ exit-knappen
+			// KjÃ¸r framover hvis vi ikke allerede gjÃ¸r det
 			if(!pilot.isMoving() && move) {
 				pilot.forward();
 			}
@@ -70,14 +71,14 @@ public class IIERally{
 			lysSensor.fetchSample(lysVerdi, 0); //LYS
 			float lys = lysVerdi[0];
 
-			fargeSensor.fetchSample(colorVerdi, 0); //COLOR
+			fargeSample.fetchSample(colorVerdi, 0); //COLOR
 			float color = colorVerdi[0];
 
 			lcd.clear();
 			lcd.drawString("NXT " + lys, 0, 0);
 			lcd.drawString("EV3 " + color, 0, 1);
 
-			if (color < 10){
+			if (color != Color.BLACK){
 
 				pilot.rotate(-10); // VENSTRE
 			} else if (lys < 48){
@@ -85,7 +86,7 @@ public class IIERally{
 				//pilot.arcForward(-150);
 				pilot.rotate(10);
 			}
-			// Elsen under trengs ikke, da forward kjøres på starten uansett
+			// Elsen under trengs ikke, da forward kjÃ¸res pÃ¥ starten uansett
 			// else {
 				// pilot.forward();
 			// }

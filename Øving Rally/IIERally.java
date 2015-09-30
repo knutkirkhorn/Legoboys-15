@@ -88,9 +88,12 @@ public class IIERally{
 				pilot.rotate(10);
 			}
 			// Elsen under trengs ikke, da forward kjøres på starten uansett
-			// else {
+			 else {
 				// pilot.forward();
-			// }
+				if(!pilot.isMoving()){
+					pilot.forward();
+				}
+			 }
 
 		}//while
 		System.out.println("AVSLUTTET");

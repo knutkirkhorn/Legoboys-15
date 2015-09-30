@@ -12,7 +12,8 @@ import lejos.hardware.lcd.TextLCD;
 //import lejos.robotics.Color;
 
 public class IIERallyTest{
-	private static final int SNU_AKS = 25;
+	private static final int SNU_AKS = 10;
+	private static final int STANDARD_FART = 300;
 
 	public static void main (String[] args)  throws Exception{
 
@@ -36,41 +37,47 @@ public class IIERallyTest{
 		//Boolean move = true; // Sett til false hvis roboten ikke skal kjøre videre
 		//System.out.println("start lokke");
 
-		int fartD = 300;
-		int fartA = 300;
+		int fartD = STANDARD_FART;
+		int fartA = STANDARD_FART;
+		float ev3Verdi = 0;
+		float nxtVerdi = 0;
 
 		while (true){
 			lysSensor.fetchSample(lysVerdi, 0);
 			fargeSample.fetchSample(colorVerdi, 0);
-			float ev3Verdi = colorVerdi[0];
-			float nxtVerdi = lysVerdi[0];
+			ev3Verdi = colorVerdi[0];
+			nxtVerdi = lysVerdi[0];
 
 			if (ev3Verdi < 0.1){ //svart på ev3-sensor
 				fartD += SNU_AKS;
+				if(fartD > 400)
+					fartD = STANDARD_FART;
 				fartA -= SNU_AKS;
 				Motor.D.setSpeed(fartD);
 				Motor.A.setSpeed(fartA);
 				Motor.D.forward();
 				Motor.A.forward();
-				System.out.println("HOYRE!");
+				//System.out.println("HOYRE!");
 			}
 			if (nxtVerdi < 0.4){//svart på nxt-sensor
 				fartD -= SNU_AKS;
 				fartA += SNU_AKS;
+				if(fartA > 400)
+					fartA = STANDARD_FART;
 				Motor.D.setSpeed(fartD);
 				Motor.A.setSpeed(fartA);
 				Motor.D.forward();
 				Motor.A.forward();
-				System.out.println("VENSTRE!");
+				//System.out.println("VENSTRE!");
 			}
 			if(ev3Verdi > 0.1 && nxtVerdi > 0.4){
-				fartD = 300;
-				fartA = 300;
+				fartD = STANDARD_FART;
+				fartA = STANDARD_FART;
 				Motor.D.setSpeed(fartD);
 				Motor.A.setSpeed(fartA);
 				Motor.D.forward();
 				Motor.A.forward();
-				System.out.println("FRAM!");
+				//System.out.println("FRAM!");
 				}
 			}
 		}

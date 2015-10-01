@@ -9,11 +9,11 @@ import lejos.hardware.sensor.NXTLightSensor;
 import javax.swing.Timer;
 
 public class NyesteEnSensorFinal{
-	private static final double SVART_EV3 = 0.06; // Alle sampler under dette er svarte
+	private static final double SVART_EV3 = 0.04; // Alle sampler under dette er svarte
 	private static final double SVART_NXT = 0.45; // Alle sampler under dette er svarte
 	private static final long tid2 = (System.currentTimeMillis()/1000) + 50;
 
-	public static void main (String[] args)  throws Exception{
+	public static void main(String[] args) throws Exception{
 
 		Brick brick = BrickFinder.getDefault();
 		Port s1 = brick.getPort("S1"); //nxt

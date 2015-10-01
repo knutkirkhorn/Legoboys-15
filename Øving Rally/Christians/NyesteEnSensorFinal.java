@@ -1,0 +1,160 @@
+import lejos.robotics.SampleProvider;
+import lejos.hardware.motor.*;
+import lejos.hardware.sensor.EV3TouchSensor;
+import lejos.hardware.sensor.EV3ColorSensor;
+import lejos.hardware.port.Port;
+import lejos.hardware.Brick;
+import lejos.hardware.BrickFinder;
+import lejos.robotics.navigation.*;
+import lejos.hardware.Button;
+import lejos.hardware.sensor.NXTLightSensor;
+import lejos.hardware.lcd.TextLCD;
+import javax.swing.Timer;
+//import lejos.robotics.Color;
+
+public class NyesteEnSensorFinal{
+private static final int SNU_AKS = 250;
+private static final int SNU_AKS2 = 200;
+private static final int SNU_AKS3 = 400;
+private static final double SVART_EV3 = 0.06; // Alle sampler under dette er svarte
+private static final double SVART_NXT = 0.45; // Alle sampler under dette er svarte
+private static final long tid2 = (System.currentTimeMillis()/1000) + 50;
+
+	public static void main (String[] args)  throws Exception{
+
+		Brick brick = BrickFinder.getDefault();
+		Port s1 = brick.getPort("S1"); //
+		Port s4 = brick.getPort("S4"); //
+
+		NXTRegulatedMotor venstreMotor = Motor.A;
+		NXTRegulatedMotor hoyreMotor = Motor.D;
+
+		TextLCD lcd = brick.getTextLCD();
+
+		NXTLightSensor lysSensor = new NXTLightSensor(s1); // NXT LYS
+		EV3ColorSensor fargeSensor = new EV3ColorSensor(s4); // EV3 LYS
+
+		//COLOR-NXT----------------------------------------------------------------
+		SampleProvider fargeSample = fargeSensor.getRedMode();//getMode("RGB");//getColorIDMode();
+		float[] colorVerdi = new float[fargeSample.sampleSize()];
+
+		//LYS-EV3------------------------------------------------------------------
+		SampleProvider lysSample = lysSensor;
+		float[] lysVerdi = new float[lysSample.sampleSize()];
+
+		int teller = 0;
+
+		while (true){
+
+			long tid1 = System.currentTimeMillis()/1000;
+			long tida = tid2 - tid1;
+			System.out.println(tida);
+
+
+			if (tida > 0) {
+
+				lysSensor.fetchSample(lysVerdi, 0);
+				fargeSample.fetchSample(colorVerdi, 0);
+				float ev3Verdi = colorVerdi[0];
+				float nxtVerdi = lysVerdi[0];
+
+				if (ev3Verdi < 0.12 && ev3Verdi > SVART_EV3){
+					hoyreMotor.setSpeed(280);
+					venstreMotor.setSpeed(350);
+					hoyreMotor.forward();
+					venstreMotor.forward();
+					System.out.println("MIIIIIIDT I!!!!");
+				} else if (ev3Verdi > SVART_EV3 && nxtVerdi > SVART_NXT){ // Ingen svart (beige)
+						hoyreMotor.setSpeed(400);
+						venstreMotor.setSpeed(200);
+						hoyreMotor.forward();
+						venstreMotor.forward();
+						System.out.println("HOYRE!" + ev3Verdi);
+				} else if (ev3Verdi > SVART_EV3 && nxtVerdi < SVART_NXT){ // Kun NXT svart
+					hoyreMotor.stop();
+					venstreMotor.setSpeed(550);
+					hoyreMotor.forward();
+					venstreMotor.forward();
+					System.out.println("HARDT VENSTRE!!!!");
+
+				} else if (ev3Verdi < SVART_EV3){ // EV3 svart
+						hoyreMotor.setSpeed(200);
+						venstreMotor.setSpeed(250);
+						hoyreMotor.forward();
+						venstreMotor.forward();
+						System.out.println("VENSTRE!" + ev3Verdi);
+				} else if (ev3Verdi < SVART_EV3 && nxtVerdi < SVART_NXT){ // Begge svart
+					hoyreMotor.setSpeed(600);
+					venstreMotor.setSpeed(600);
+					hoyreMotor.forward();
+					venstreMotor.forward();
+					System.out.println("BUUURN OUT!");
+				}
+
+				/*if(ev3Verdi > 0.1 && nxtVerdi > 0.4){
+						fartD = 300;
+						fartA = 300;
+						hoyreMotor.setSpeed(fartD);
+						venstreMotor.setSpeed(fartA);
+						hoyreMotor.forward();
+						venstreMotor.forward();
+						System.out.println("FRAM!");
+					}*/
+			}
+
+			if (tida < 0) {
+
+				lysSensor.fetchSample(lysVerdi, 0);
+				fargeSample.fetchSample(colorVerdi, 0);
+				float ev3Verdi = colorVerdi[0];
+				float nxtVerdi = lysVerdi[0];
+
+
+				if (teller == 0){
+					hoyreMotor.setSpeed(600);
+					venstreMotor.setSpeed(300);
+					hoyreMotor.forward();
+					venstreMotor.forward();
+					Thread.sleep(300);
+					teller++;
+					System.out.println("TIIIIIID SNUUUUUUUUUUUUUUUUU!");
+				}
+
+				if (ev3Verdi < SVART_EV3 && nxtVerdi < SVART_NXT){ // Begge svart
+					venstreMotor.stop();
+					hoyreMotor.setSpeed(600);
+					hoyreMotor.forward();
+					venstreMotor.forward();
+					Thread.sleep(300);
+					System.out.println("BUUURN OUT!");
+
+				} else if (nxtVerdi < 0.45 && ev3Verdi > SVART_EV3){
+					hoyreMotor.setSpeed(350);
+					venstreMotor.setSpeed(300);
+					hoyreMotor.forward();
+					venstreMotor.forward();
+					System.out.println("S --- MIIIIIIDT I!!!!");
+				} else if (nxtVerdi > SVART_NXT && ev3Verdi > SVART_EV3){ // Ingen svart (beige)
+					hoyreMotor.setSpeed(200);
+					venstreMotor.setSpeed(400);
+					hoyreMotor.forward();
+					venstreMotor.forward();
+					System.out.println("S --- HOYRE!" + ev3Verdi);
+				} else if (nxtVerdi > SVART_NXT && ev3Verdi < SVART_EV3){ // Kun EV3 svart
+					venstreMotor.stop();
+					hoyreMotor.setSpeed(550);
+					hoyreMotor.forward();
+					venstreMotor.forward();
+					System.out.println("S --- HARDT VENSTRE!!!!");
+
+				} /*else if (nxtVerdi > SVART_NXT){ // NXT svart
+					venstreMotor.setSpeed(100);
+					hoyreMotor.setSpeed(200);
+					hoyreMotor.forward();
+					venstreMotor.forward();
+				System.out.println("S --- VENSTRE!" + ev3Verdi);
+				}*/
+			}
+		}
+	}
+}

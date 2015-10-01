@@ -52,83 +52,65 @@ public class NyesteEnSensorFinal{
 					hoyreMotor.setSpeed(200);
 					hoyreMotor.forward();
 					venstreMotor.forward();
-					System.out.println("HØYRE!");
+					System.out.println("Vanlig helling høyre!");
 				} else if (ev3Verdi > SVART_EV3 && nxtVerdi > SVART_NXT){ // Ingen svart (beige), kjør rett fram, men hell til venstre
 					venstreMotor.setSpeed(200);
 					hoyreMotor.setSpeed(400);
-					hoyreMotor.forward();
 					venstreMotor.forward();
-					System.out.println("HOYRE!" + ev3Verdi);
-				} else if (ev3Verdi > SVART_EV3 && nxtVerdi < SVART_NXT){ // Kun NXT svart
+					hoyreMotor.forward();
+					System.out.println("Vanlig helling venstre!");
+				} else if (ev3Verdi > SVART_EV3 && nxtVerdi < SVART_NXT){ // Kun NXT svart, nødrotasjon
 					venstreMotor.setSpeed(550);
 					hoyreMotor.stop();
-					hoyreMotor.forward();
 					venstreMotor.forward();
-					System.out.println("HARDT VENSTRE!!!!");
+					hoyreMotor.forward();
+					System.out.println("Nødsving venstre!");
 
 				} 
-				// else if (ev3Verdi < SVART_EV3){ // EV3 svart
-					// hoyreMotor.setSpeed(200);
-					// venstreMotor.setSpeed(250);
-					// hoyreMotor.forward();
-					// venstreMotor.forward();
-					// System.out.println("VENSTRE!" + ev3Verdi);
-				// } 
 				else if (ev3Verdi < SVART_EV3 && nxtVerdi < SVART_NXT){ // Begge svart
-					hoyreMotor.setSpeed(600);
 					venstreMotor.setSpeed(600);
-					hoyreMotor.forward();
+					hoyreMotor.setSpeed(600);
 					venstreMotor.forward();
-					System.out.println("BUUURN OUT!");
+					hoyreMotor.forward();
+					System.out.println("Fuck alt!");
 				}
-
-				/*if(ev3Verdi > 0.1 && nxtVerdi > 0.4){
-						fartD = 300;
-						fartA = 300;
-						hoyreMotor.setSpeed(fartD);
-						venstreMotor.setSpeed(fartA);
-						hoyreMotor.forward();
-						venstreMotor.forward();
-						System.out.println("FRAM!");
-					}*/
 			}
 			else {
 				if (!harSnudd){ // Utfør manøver for å komme på rett side av streken
-					hoyreMotor.setSpeed(600);
 					venstreMotor.setSpeed(300);
+					hoyreMotor.setSpeed(600);
 					hoyreMotor.forward();
 					venstreMotor.forward();
-					Thread.sleep(300);
+					Thread.sleep(750);
 					harSnudd = true;
-					System.out.println("TIIIIIID SNUUUUUUUUUUUUUUUUU!");
+					System.out.println("Snudde til rett side!");
 				}
 				else if (ev3Verdi < SVART_EV3 && nxtVerdi < SVART_NXT){ // Begge svart
 					venstreMotor.stop();
 					hoyreMotor.setSpeed(600);
-					hoyreMotor.forward();
 					venstreMotor.forward();
+					hoyreMotor.forward();
 					Thread.sleep(300);
-					System.out.println("BUUURN OUT!");
+					System.out.println("Fuck alt!");
 
 				} else if (nxtVerdi < SVART_NXT && ev3Verdi > SVART_EV3){ // NXT svart, EV3 hvit
 					hoyreMotor.setSpeed(350);
 					venstreMotor.setSpeed(300);
-					hoyreMotor.forward();
 					venstreMotor.forward();
+					hoyreMotor.forward();
 					System.out.println("S --- MIIIIIIDT I!!!!");
 				} else if (nxtVerdi > SVART_NXT && ev3Verdi > SVART_EV3){ // Ingen svart (beige)
-					hoyreMotor.setSpeed(200);
 					venstreMotor.setSpeed(400);
+					hoyreMotor.setSpeed(200);
 					hoyreMotor.forward();
 					venstreMotor.forward();
 					System.out.println("S --- HOYRE!" + ev3Verdi);
 				} else if (nxtVerdi > SVART_NXT && ev3Verdi < SVART_EV3){ // Kun EV3 svart
 					venstreMotor.stop();
 					hoyreMotor.setSpeed(550);
-					hoyreMotor.forward();
 					venstreMotor.forward();
+					hoyreMotor.forward();
 					System.out.println("S --- HARDT VENSTRE!!!!");
-
 				}
 			}
 		}

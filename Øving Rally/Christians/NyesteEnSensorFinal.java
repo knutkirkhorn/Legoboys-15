@@ -9,8 +9,8 @@ import lejos.hardware.sensor.NXTLightSensor;
 import javax.swing.Timer;
 
 public class NyesteEnSensorFinal{
-	private static final double SVART_EV3 = 0.06; // Alle sampler under dette er svarte
-	private static final double SVART_NXT = 0.45; // Alle sampler under dette er svarte
+	private static final double SVART_EV3 = 0.04; // Alle sampler under dette er svarte
+	private static final double SVART_NXT = 0.39; // Alle sampler under dette er svarte
 	private static final long tid2 = (System.currentTimeMillis()/1000) + 50;
 
 	public static void main (String[] args)  throws Exception{
@@ -36,20 +36,18 @@ public class NyesteEnSensorFinal{
 		boolean harSnudd = false;
 
 		while (true){
-
 			long tid1 = System.currentTimeMillis()/1000;
 			long tida = tid2 - tid1; // Tid igjen til vi reverserer
 			System.out.println(tida);
 
+			lysSensor.fetchSample(lysVerdi, 0);
+			fargeSample.fetchSample(colorVerdi, 0);
+			float ev3Verdi = colorVerdi[0];
+			float nxtVerdi = lysVerdi[0];
 
 			if (tida > 0) { // Vanlig
 
-				lysSensor.fetchSample(lysVerdi, 0);
-				fargeSample.fetchSample(colorVerdi, 0);
-				float ev3Verdi = colorVerdi[0];
-				float nxtVerdi = lysVerdi[0];
-
-				if (ev3Verdi < 0.12 && ev3Verdi > SVART_EV3){
+				if (ev3Verdi < SVART_EV3){
 					hoyreMotor.setSpeed(280);
 					venstreMotor.setSpeed(350);
 					hoyreMotor.forward();
@@ -93,12 +91,6 @@ public class NyesteEnSensorFinal{
 					}*/
 			}
 			else {
-
-				lysSensor.fetchSample(lysVerdi, 0);
-				fargeSample.fetchSample(colorVerdi, 0);
-				float ev3Verdi = colorVerdi[0];
-				float nxtVerdi = lysVerdi[0];
-
 				if (!harSnudd){ // Utfør manøver for å komme på rett side av streken
 					hoyreMotor.setSpeed(600);
 					venstreMotor.setSpeed(300);
@@ -108,8 +100,7 @@ public class NyesteEnSensorFinal{
 					harSnudd = true;
 					System.out.println("TIIIIIID SNUUUUUUUUUUUUUUUUU!");
 				}
-
-				if (ev3Verdi < SVART_EV3 && nxtVerdi < SVART_NXT){ // Begge svart
+				else if (ev3Verdi < SVART_EV3 && nxtVerdi < SVART_NXT){ // Begge svart
 					venstreMotor.stop();
 					hoyreMotor.setSpeed(600);
 					hoyreMotor.forward();

@@ -10,7 +10,7 @@ import javax.swing.Timer;
 
 public class NyesteEnSensorFinal{
 	private static final double SVART_EV3 = 0.04; // Alle sampler under dette er svarte
-	private static final double SVART_NXT = 0.45; // Alle sampler under dette er svarte
+	private static final double SVART_NXT = 0.39; // Alle sampler under dette er svarte
 	private static final long tid2 = (System.currentTimeMillis()/1000) + 50;
 
 	public static void main(String[] args) throws Exception{

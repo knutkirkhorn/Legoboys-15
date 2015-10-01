@@ -8,14 +8,9 @@ import lejos.hardware.BrickFinder;
 import lejos.robotics.navigation.*;
 import lejos.hardware.Button;
 import lejos.hardware.sensor.NXTLightSensor;
-import lejos.hardware.lcd.TextLCD;
 import javax.swing.Timer;
-//import lejos.robotics.Color;
 
 public class NyesteEnSensorFinal{
-private static final int SNU_AKS = 250;
-private static final int SNU_AKS2 = 200;
-private static final int SNU_AKS3 = 400;
 private static final double SVART_EV3 = 0.06; // Alle sampler under dette er svarte
 private static final double SVART_NXT = 0.45; // Alle sampler under dette er svarte
 private static final long tid2 = (System.currentTimeMillis()/1000) + 50;
@@ -23,26 +18,24 @@ private static final long tid2 = (System.currentTimeMillis()/1000) + 50;
 	public static void main (String[] args)  throws Exception{
 
 		Brick brick = BrickFinder.getDefault();
-		Port s1 = brick.getPort("S1"); //
-		Port s4 = brick.getPort("S4"); //
+		Port s1 = brick.getPort("S1"); //nxt
+		Port s4 = brick.getPort("S4"); //ev3
 
 		NXTRegulatedMotor venstreMotor = Motor.A;
 		NXTRegulatedMotor hoyreMotor = Motor.D;
-
-		TextLCD lcd = brick.getTextLCD();
 
 		NXTLightSensor lysSensor = new NXTLightSensor(s1); // NXT LYS
 		EV3ColorSensor fargeSensor = new EV3ColorSensor(s4); // EV3 LYS
 
 		//COLOR-NXT----------------------------------------------------------------
-		SampleProvider fargeSample = fargeSensor.getRedMode();//getMode("RGB");//getColorIDMode();
+		SampleProvider fargeSample = fargeSensor.getRedMode();
 		float[] colorVerdi = new float[fargeSample.sampleSize()];
 
 		//LYS-EV3------------------------------------------------------------------
 		SampleProvider lysSample = lysSensor;
 		float[] lysVerdi = new float[lysSample.sampleSize()];
 
-		int teller = 0;
+		boolean harSnudd = false;
 
 		while (true){
 
@@ -65,11 +58,11 @@ private static final long tid2 = (System.currentTimeMillis()/1000) + 50;
 					venstreMotor.forward();
 					System.out.println("MIIIIIIDT I!!!!");
 				} else if (ev3Verdi > SVART_EV3 && nxtVerdi > SVART_NXT){ // Ingen svart (beige)
-						hoyreMotor.setSpeed(400);
-						venstreMotor.setSpeed(200);
-						hoyreMotor.forward();
-						venstreMotor.forward();
-						System.out.println("HOYRE!" + ev3Verdi);
+					hoyreMotor.setSpeed(400);
+					venstreMotor.setSpeed(200);
+					hoyreMotor.forward();
+					venstreMotor.forward();
+					System.out.println("HOYRE!" + ev3Verdi);
 				} else if (ev3Verdi > SVART_EV3 && nxtVerdi < SVART_NXT){ // Kun NXT svart
 					hoyreMotor.stop();
 					venstreMotor.setSpeed(550);
@@ -78,11 +71,11 @@ private static final long tid2 = (System.currentTimeMillis()/1000) + 50;
 					System.out.println("HARDT VENSTRE!!!!");
 
 				} else if (ev3Verdi < SVART_EV3){ // EV3 svart
-						hoyreMotor.setSpeed(200);
-						venstreMotor.setSpeed(250);
-						hoyreMotor.forward();
-						venstreMotor.forward();
-						System.out.println("VENSTRE!" + ev3Verdi);
+					hoyreMotor.setSpeed(200);
+					venstreMotor.setSpeed(250);
+					hoyreMotor.forward();
+					venstreMotor.forward();
+					System.out.println("VENSTRE!" + ev3Verdi);
 				} else if (ev3Verdi < SVART_EV3 && nxtVerdi < SVART_NXT){ // Begge svart
 					hoyreMotor.setSpeed(600);
 					venstreMotor.setSpeed(600);
@@ -110,13 +103,13 @@ private static final long tid2 = (System.currentTimeMillis()/1000) + 50;
 				float nxtVerdi = lysVerdi[0];
 
 
-				if (teller == 0){
+				if (harSnudd){
 					hoyreMotor.setSpeed(600);
 					venstreMotor.setSpeed(300);
 					hoyreMotor.forward();
 					venstreMotor.forward();
 					Thread.sleep(300);
-					teller++;
+					harSnudd = true;
 					System.out.println("TIIIIIID SNUUUUUUUUUUUUUUUUU!");
 				}
 

@@ -9,8 +9,8 @@ import lejos.hardware.sensor.NXTLightSensor;
 import javax.swing.Timer;
 
 public class NyesteEnSensorFinal{
-	private static final double SVART_EV3 = 0.04; // Alle sampler under dette er svarte
-	private static final double SVART_NXT = 0.39; // Alle sampler under dette er svarte
+	private static final float SVART_EV3 = 0.03f; // Alle sampler under dette er svarte
+	private static final float SVART_NXT = 0.39f; // Alle sampler under dette er svarte
 	private static final long tid2 = (System.currentTimeMillis()/1000) + 50;
 
 	public static void main(String[] args) throws Exception{
@@ -38,7 +38,6 @@ public class NyesteEnSensorFinal{
 		while (true){
 			long tid1 = System.currentTimeMillis()/1000;
 			long tida = tid2 - tid1; // Tid igjen til vi reverserer
-			System.out.println(tida);
 
 			lysSensor.fetchSample(lysVerdi, 0);
 			fargeSample.fetchSample(colorVerdi, 0);
@@ -46,33 +45,36 @@ public class NyesteEnSensorFinal{
 			float nxtVerdi = lysVerdi[0];
 
 			if (tida > 0) { // Vanlig
-
-				if (ev3Verdi < SVART_EV3){
-					hoyreMotor.setSpeed(280);
-					venstreMotor.setSpeed(350);
+				System.out.println(tida);
+				
+				if (ev3Verdi < SVART_EV3 && nxtVerdi > SVART_NXT){ // Møter stripen (kun EV3), sving til høyre
+					venstreMotor.setSpeed(250);
+					hoyreMotor.setSpeed(200);
 					hoyreMotor.forward();
 					venstreMotor.forward();
-					System.out.println("MIIIIIIDT I!!!!");
-				} else if (ev3Verdi > SVART_EV3 && nxtVerdi > SVART_NXT){ // Ingen svart (beige)
-					hoyreMotor.setSpeed(400);
+					System.out.println("HØYRE!");
+				} else if (ev3Verdi > SVART_EV3 && nxtVerdi > SVART_NXT){ // Ingen svart (beige), kjør rett fram, men hell til venstre
 					venstreMotor.setSpeed(200);
+					hoyreMotor.setSpeed(400);
 					hoyreMotor.forward();
 					venstreMotor.forward();
 					System.out.println("HOYRE!" + ev3Verdi);
 				} else if (ev3Verdi > SVART_EV3 && nxtVerdi < SVART_NXT){ // Kun NXT svart
-					hoyreMotor.stop();
 					venstreMotor.setSpeed(550);
+					hoyreMotor.stop();
 					hoyreMotor.forward();
 					venstreMotor.forward();
 					System.out.println("HARDT VENSTRE!!!!");
 
-				} else if (ev3Verdi < SVART_EV3){ // EV3 svart
-					hoyreMotor.setSpeed(200);
-					venstreMotor.setSpeed(250);
-					hoyreMotor.forward();
-					venstreMotor.forward();
-					System.out.println("VENSTRE!" + ev3Verdi);
-				} else if (ev3Verdi < SVART_EV3 && nxtVerdi < SVART_NXT){ // Begge svart
+				} 
+				// else if (ev3Verdi < SVART_EV3){ // EV3 svart
+					// hoyreMotor.setSpeed(200);
+					// venstreMotor.setSpeed(250);
+					// hoyreMotor.forward();
+					// venstreMotor.forward();
+					// System.out.println("VENSTRE!" + ev3Verdi);
+				// } 
+				else if (ev3Verdi < SVART_EV3 && nxtVerdi < SVART_NXT){ // Begge svart
 					hoyreMotor.setSpeed(600);
 					venstreMotor.setSpeed(600);
 					hoyreMotor.forward();

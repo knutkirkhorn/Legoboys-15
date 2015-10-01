@@ -45,21 +45,22 @@ public class NyesteEnSensorFinal{
 			float nxtVerdi = lysVerdi[0];
 
 			if (tida > 0) { // Vanlig
+			
 				System.out.println(tida);
 				
-				if (ev3Verdi < SVART_EV3 && nxtVerdi > SVART_NXT){ // Møter stripen (kun EV3), sving til høyre
+				if (erEV3Svart(ev3Verdi) && !erNXTSvart(nxtVerdi)){ // Møter stripen (kun EV3), sving til høyre
 					venstreMotor.setSpeed(250);
 					hoyreMotor.setSpeed(200);
 					hoyreMotor.forward();
 					venstreMotor.forward();
 					System.out.println("Vanlig helling høyre!");
-				} else if (ev3Verdi > SVART_EV3 && nxtVerdi > SVART_NXT){ // Ingen svart (beige), kjør rett fram, men hell til venstre
+				} else if (!erEV3Svart(ev3Verdi) && !erNXTSvart(nxtVerdi)){ // Ingen svart (beige), kjør rett fram, men hell til venstre
 					venstreMotor.setSpeed(200);
 					hoyreMotor.setSpeed(400);
 					venstreMotor.forward();
 					hoyreMotor.forward();
 					System.out.println("Vanlig helling venstre!");
-				} else if (ev3Verdi > SVART_EV3 && nxtVerdi < SVART_NXT){ // Kun NXT svart, nødrotasjon
+				} else if (!erEV3Svart(ev3Verdi) && erNXTSvart(nxtVerdi)){ // Kun NXT svart, nødrotasjon
 					venstreMotor.setSpeed(550);
 					hoyreMotor.stop();
 					venstreMotor.forward();
@@ -67,7 +68,7 @@ public class NyesteEnSensorFinal{
 					System.out.println("Nødsving venstre!");
 
 				} 
-				else if (ev3Verdi < SVART_EV3 && nxtVerdi < SVART_NXT){ // Begge svart
+				else if (erEV3Svart(ev3Verdi) && erNXTSvart(nxtVerdi)){ // Begge svart
 					venstreMotor.setSpeed(600);
 					hoyreMotor.setSpeed(600);
 					venstreMotor.forward();
@@ -114,5 +115,11 @@ public class NyesteEnSensorFinal{
 				}
 			}
 		}
+	}
+	private static boolean erEV3Svart(float sample) {
+		return sample < SVART_EV3;
+	}
+	private static boolean erNXTSvart(float sample) {
+		return sample < SVART_NXT;
 	}
 }

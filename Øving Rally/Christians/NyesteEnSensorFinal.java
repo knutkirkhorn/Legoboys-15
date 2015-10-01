@@ -9,9 +9,9 @@ import lejos.hardware.sensor.NXTLightSensor;
 import javax.swing.Timer;
 
 public class NyesteEnSensorFinal{
-private static final double SVART_EV3 = 0.06; // Alle sampler under dette er svarte
-private static final double SVART_NXT = 0.45; // Alle sampler under dette er svarte
-private static final long tid2 = (System.currentTimeMillis()/1000) + 50;
+	private static final double SVART_EV3 = 0.06; // Alle sampler under dette er svarte
+	private static final double SVART_NXT = 0.45; // Alle sampler under dette er svarte
+	private static final long tid2 = (System.currentTimeMillis()/1000) + 50;
 
 	public static void main (String[] args)  throws Exception{
 
@@ -38,11 +38,11 @@ private static final long tid2 = (System.currentTimeMillis()/1000) + 50;
 		while (true){
 
 			long tid1 = System.currentTimeMillis()/1000;
-			long tida = tid2 - tid1;
+			long tida = tid2 - tid1; // Tid igjen til vi reverserer
 			System.out.println(tida);
 
 
-			if (tida > 0) {
+			if (tida > 0) { // Vanlig
 
 				lysSensor.fetchSample(lysVerdi, 0);
 				fargeSample.fetchSample(colorVerdi, 0);
@@ -92,15 +92,14 @@ private static final long tid2 = (System.currentTimeMillis()/1000) + 50;
 						System.out.println("FRAM!");
 					}*/
 			}
-
-			if (tida < 0) {
+			else {
 
 				lysSensor.fetchSample(lysVerdi, 0);
 				fargeSample.fetchSample(colorVerdi, 0);
 				float ev3Verdi = colorVerdi[0];
 				float nxtVerdi = lysVerdi[0];
 
-				if (harSnudd){
+				if (!harSnudd){ // Utfør manøver for å komme på rett side av streken
 					hoyreMotor.setSpeed(600);
 					venstreMotor.setSpeed(300);
 					hoyreMotor.forward();
@@ -118,7 +117,7 @@ private static final long tid2 = (System.currentTimeMillis()/1000) + 50;
 					Thread.sleep(300);
 					System.out.println("BUUURN OUT!");
 
-				} else if (nxtVerdi < 0.45 && ev3Verdi > SVART_EV3){
+				} else if (nxtVerdi < SVART_NXT && ev3Verdi > SVART_EV3){ // NXT svart, EV3 hvit
 					hoyreMotor.setSpeed(350);
 					venstreMotor.setSpeed(300);
 					hoyreMotor.forward();
@@ -137,13 +136,7 @@ private static final long tid2 = (System.currentTimeMillis()/1000) + 50;
 					venstreMotor.forward();
 					System.out.println("S --- HARDT VENSTRE!!!!");
 
-				} /*else if (nxtVerdi > SVART_NXT){ // NXT svart
-					venstreMotor.setSpeed(100);
-					hoyreMotor.setSpeed(200);
-					hoyreMotor.forward();
-					venstreMotor.forward();
-				System.out.println("S --- VENSTRE!" + ev3Verdi);
-				}*/
+				}
 			}
 		}
 	}

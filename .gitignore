@@ -10,6 +10,7 @@ $RECYCLE.BIN/
 
 *.class
 *.jar
+*.bat
 
 # Windows Installer files
 *.cab

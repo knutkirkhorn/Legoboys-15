@@ -6,7 +6,7 @@ import lejos.hardware.port.Port;
 import lejos.hardware.Brick;
 import lejos.hardware.BrickFinder;
 import lejos.robotics.navigation.*;
-import lejos.hardware.Button;
+//import lejos.hardware.Button;
 import lejos.hardware.sensor.NXTLightSensor;
 import lejos.hardware.lcd.TextLCD;
 //import lejos.robotics.Color;
@@ -23,11 +23,11 @@ public class IIERallyTest{
 
 		TextLCD lcd = brick.getTextLCD();
 
-		NXTLightSensor lysSensor = new NXTLightSensor(s1); // NXT LYS
-		EV3ColorSensor fargeSensor = new EV3ColorSensor(s4); // EV3 LYS
+		NXTLightSensor lysSensor = new NXTLightSensor(s1); // NXT LYS(lyssensor)
+		EV3ColorSensor fargeSensor = new EV3ColorSensor(s4); // EV3 LYS(fargesensor)
 
 		//COLOR-NXT----------------------------------------------------------------
-		SampleProvider fargeSample = fargeSensor.getRedMode();//getMode("RGB");//getColorIDMode();
+		SampleProvider fargeSample = fargeSensor.getRedMode();
 		float[] colorVerdi = new float[fargeSample.sampleSize()];
 
 		//LYS-EV3------------------------------------------------------------------

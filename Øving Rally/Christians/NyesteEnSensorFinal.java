@@ -1,6 +1,5 @@
 import lejos.robotics.SampleProvider;
 import lejos.hardware.motor.*;
-import lejos.hardware.sensor.EV3TouchSensor;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.port.Port;
 import lejos.hardware.Brick;
@@ -45,9 +44,9 @@ public class NyesteEnSensorFinal{
 			float nxtVerdi = lysVerdi[0];
 
 			if (tida > 0) { // Vanlig
-			
+
 				System.out.println(tida);
-				
+
 				if (erEV3Svart(ev3Verdi) && !erNXTSvart(nxtVerdi)){ // Møter stripen (kun EV3), sving til høyre
 					venstreMotor.setSpeed(250);
 					hoyreMotor.setSpeed(200);
@@ -67,7 +66,7 @@ public class NyesteEnSensorFinal{
 					hoyreMotor.forward();
 					System.out.println("Nødsving venstre!");
 
-				} 
+				}
 				else if (erEV3Svart(ev3Verdi) && erNXTSvart(nxtVerdi)){ // Begge svart
 					venstreMotor.setSpeed(600);
 					hoyreMotor.setSpeed(600);

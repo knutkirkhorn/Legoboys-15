@@ -5,8 +5,6 @@ import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.port.Port;
 import lejos.hardware.Brick;
 import lejos.hardware.BrickFinder;
-import lejos.robotics.navigation.*;
-import lejos.hardware.Button;
 import lejos.hardware.sensor.NXTLightSensor;
 import javax.swing.Timer;
 
@@ -101,7 +99,6 @@ private static final long tid2 = (System.currentTimeMillis()/1000) + 50;
 				fargeSample.fetchSample(colorVerdi, 0);
 				float ev3Verdi = colorVerdi[0];
 				float nxtVerdi = lysVerdi[0];
-
 
 				if (harSnudd){
 					hoyreMotor.setSpeed(600);

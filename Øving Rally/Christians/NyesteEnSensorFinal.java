@@ -13,7 +13,7 @@ public class NyesteEnSensorFinal{
 	private static final double SVART_NXT = 0.39; // Alle sampler under dette er svarte
 	private static final long tid2 = (System.currentTimeMillis()/1000) + 50;
 
-	public static void main (String[] args)  throws Exception{
+	public static void main(String[] args) throws Exception{
 
 		Brick brick = BrickFinder.getDefault();
 		Port s1 = brick.getPort("S1"); //nxt

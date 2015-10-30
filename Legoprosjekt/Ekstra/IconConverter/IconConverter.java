@@ -12,7 +12,7 @@ public class IconConverter
 		//String inputFile = "icon.png";
 		if(args.length == 0)
 		{
-			System.out.println("Need input image!");
+			System.out.println("Need input image! Use 'java IconConverter filename.png'.");
 			return;
 		}
 		String inputFile = args[0];
@@ -22,15 +22,17 @@ public class IconConverter
 		
 		if(image.getHeight() != 32 || image.getWidth() != 32)
 		{
-			System.out.println("Image needs to be 32x32px!")
+			System.out.println("Image needs to be 32x32px!");
 			return;
 		}
 		
+		System.out.print("String icon = \"");
 		int[] pixels = convertToArray(image);
 		for(int x = 0; x < pixels.length; x += 8)
 		{
 			System.out.print("\\u" + String.format("%04x", convert8Bytes(pixels, x)));
 		}
+		System.out.print("\";");
 	}
 	
 	public static short convert8Bytes(int[] array, int pos)

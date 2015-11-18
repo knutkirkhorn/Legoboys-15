@@ -10,16 +10,16 @@ public class Main
 {
 	// The EV3 brick
 	private static Brick brick;
-	
+
 	// The LCD screen controller
 	private static TextLCD lcd;
-	
+
 	// Conveyor belt controller
 	private static Belt belt;
-	
+
 	// Contains all the dispensers
 	private static Dispenser[] dispensers;
-	
+
 	// The menu component
 	private static GraphicMenu menu;
 	private static String[] menuTitles = new String[] { "Testprogram", "Jagermaister", "Bacardi", "Kalibrer" };
@@ -31,6 +31,10 @@ public class Main
 	//Entry point and main method of application
 	public static void main(String[] args)
 	{
+		//Start music
+		MusicPlayer mPlayer = new MusicPlayer("broilerjul.wav", 100);
+		mPlayer.playMusic();
+
 		brick = BrickFinder.getDefault();
 		lcd = LocalEV3.get().getTextLCD();
 
@@ -82,14 +86,14 @@ public class Main
 					// Delay.msDelay(250);
 					// belt.moveToDispenser(dispensers[0]);
 					// Delay.msDelay(250);
-					
+
 					// belt.moveToDispenser(dispensers[0]);
 					// Delay.msDelay(250);
 					// belt.moveToDispenser(dispensers[1]);
 					// Delay.msDelay(250);
 					// belt.moveToDispenser(dispensers[2]);
 					// Delay.msDelay(250);
-					
+
 					belt.moveToStart();
 					belt.reset();
 					Delay.msDelay(500);
@@ -101,10 +105,15 @@ public class Main
 				belt.moveToDispenser(dispensers[1]);
 				dispensers[1].dispenseLiquid(10000);
 				Delay.msDelay(1000);
+
+				//Kan endre dette til:
+				//doDispenserShit(1, 10000, 1000);
+
 				//Move to dispenser 2
 				belt.moveToDispenser(dispensers[0]);
 				dispensers[0].dispenseLiquid(10000);
 				Delay.msDelay(1000);
+
 
 				//Reset
 				belt.moveToStart();
@@ -116,10 +125,16 @@ public class Main
 			case 2:
 				//dispensers[0].pumpTest();
 				break;
-				
+
 			case 3: // Calibrate the belt (lets us move it back to start position)
 				belt.reset();
 				break;
 		}
+	}
+
+	private void doDispenserShit(int dispenserNumber, int liquidAmount, int delayAtStop){//Endre på dette? ;))
+		belt.moveToDispenser(dispensers[dispenserNumber]);
+		dispensers[dispenserNumber].dispenseLiquid(liquidAmount);
+		Delay.msDelay(delayAtStop);
 	}
 }

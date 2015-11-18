@@ -24,25 +24,25 @@ public class Main
 	private static GraphicMenu menu;
 	private static String[] menuTitles = new String[] { "Testprogram", "Jagermaister", "Bacardi", "Kalibrer" };
 	private static String[] menuIcons = new String[] { Icons.TEST, Icons.JAGER, Icons.BACARDI, Icons.TOOLS };
-	
+
 	// Indicates if the program should keep running
 	private static boolean keepRunning = true;
-	
+
 	//Entry point and main method of application
 	public static void main(String[] args)
 	{
 		brick = BrickFinder.getDefault();
 		lcd = LocalEV3.get().getTextLCD();
-		
+
 		belt = new Belt(Motor.A, 320); // Conveyor belt connected to port A
 		dispensers = new Dispenser[3]; // 1 dispenser for testing
-		
+
 		menu = new GraphicMenu(menuTitles, menuIcons, 1, "Drinkmikser", 0);
-		
+
 		initializeDispensers();
 		startMenu();
 	}
-	
+
 	// Creates the Dispenser instances
 	private static void initializeDispensers()
 	{
@@ -50,7 +50,7 @@ public class Main
 		dispensers[1] = new Dispenser(Motor.C, 720); // First dispenser uses motor B
 		dispensers[2] = new Dispenser(Motor.D, 1032); // First dispenser uses motor B
 	}
-	
+
 	// Displays the menu and gets input
 	private static void startMenu()
 	{
@@ -61,7 +61,7 @@ public class Main
 			handleMenuAction(selection);
 		}
 	}
-	
+
 	// Processes the menu input
 	private static void handleMenuAction(int action)
 	{
@@ -70,10 +70,10 @@ public class Main
 			case -1: // Exit
 				keepRunning = false;
 				break;
-				
+
 			case 0: // Recipe 1 here (Placeholder for testing)
 				lcd.clear();
-				
+
 				for(int i = 0; i < 5; i++)
 				{
 					belt.moveToDispenser(dispensers[0]);
@@ -95,7 +95,24 @@ public class Main
 					Delay.msDelay(500);
 				}
 				break;
-				
+
+			case 1:
+				//Move to dispenser 1
+				belt.moveToDispenser(dispensers[1]);
+				dispensers[1].dispenseLiquid(10000);
+				Delay.msDelay(1000);
+				//Move to dispenser 2
+				belt.moveToDispenser(dispensers[0]);
+				dispensers[0].dispenseLiquid(10000);
+				Delay.msDelay(1000);
+
+				//Reset
+				belt.moveToStart();
+				belt.reset();
+				Delay.msDelay(500);
+
+				break;
+
 			case 2:
 				//dispensers[0].pumpTest();
 				break;

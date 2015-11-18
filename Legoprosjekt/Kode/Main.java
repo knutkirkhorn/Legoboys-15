@@ -76,24 +76,28 @@ public class Main
 				
 				for(int i = 0; i < 5; i++)
 				{
-					belt.moveToDispenser(dispensers[2]);
-					Delay.msDelay(250);
-					belt.moveToDispenser(dispensers[1]);
-					Delay.msDelay(250);
 					belt.moveToDispenser(dispensers[0]);
-					Delay.msDelay(250);
+					dispensers[0].dispenseLiquid(20000);
+					// belt.moveToDispenser(dispensers[1]);
+					// Delay.msDelay(250);
+					// belt.moveToDispenser(dispensers[0]);
+					// Delay.msDelay(250);
 					
-					belt.moveToDispenser(dispensers[0]);
-					Delay.msDelay(250);
-					belt.moveToDispenser(dispensers[1]);
-					Delay.msDelay(250);
-					belt.moveToDispenser(dispensers[2]);
-					Delay.msDelay(250);
+					// belt.moveToDispenser(dispensers[0]);
+					// Delay.msDelay(250);
+					// belt.moveToDispenser(dispensers[1]);
+					// Delay.msDelay(250);
+					// belt.moveToDispenser(dispensers[2]);
+					// Delay.msDelay(250);
 					
 					belt.moveToStart();
 					belt.reset();
 					Delay.msDelay(500);
 				}
+				break;
+				
+			case 2:
+				//dispensers[0].pumpTest();
 				break;
 				
 			case 3: // Calibrate the belt (lets us move it back to start position)

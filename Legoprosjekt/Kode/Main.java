@@ -49,9 +49,9 @@ public class Main {
 	// Creates the Dispenser instances
 	private static void initializeDispensers() {
 		dispensers = new Dispenser[3]; // 1 dispenser for testing
-		dispensers[0] = new Dispenser(Motor.B, 405); // First dispenser uses motor B
-		dispensers[1] = new Dispenser(Motor.C, 720); // First dispenser uses motor B
-		dispensers[2] = new Dispenser(Motor.D, 1032); // First dispenser uses motor B
+		dispensers[0] = new Dispenser(0, Motor.B, 405, 1000); // First dispenser uses motor B
+		dispensers[1] = new Dispenser(1, Motor.C, 720, 1000); // Second dispenser uses motor C
+		dispensers[2] = new Dispenser(2, Motor.D, 1032, 1000); // Third dispenser uses motor D
 	}
 
 	// Displays the menu and gets input
@@ -117,7 +117,12 @@ public class Main {
 				break;
 
 			case 2:
-				//dispensers[0].pumpTest();
+				Recipe juiceMix = new Recipe();
+				juiceMix.addAction(RecipeAction.MOVE_TO, 0);
+				juiceMix.addAction(RecipeAction.DISPENSE, 5000);
+				juiceMix.addAction(RecipeAction.MOVE_TO, 1);
+				juiceMix.addAction(RecipeAction.DISPENSE, 5000);
+				executeRecipe(juiceMix);
 				break;
 
 			case 3: // Calibrate the belt (lets us move it back to start position)
@@ -125,10 +130,23 @@ public class Main {
 				break;
 		}
 	}
-
-	private void moveToAndDispense(int dispenserNumber, int liquidAmount, int delayAtEnd) {
-		belt.moveToDispenser(dispensers[dispenserNumber]);
-		dispensers[dispenserNumber].dispenseLiquid(liquidAmount);
-		Delay.msDelay(delayAtEnd);
+	
+	// Executes the selected recipe, and resets the belt
+	private static void executeRecipe(Recipe recipe) {
+		for(RecipeAction action : recipe.getActions()) {
+			switch(action.getActionId()) {
+				case RecipeAction.MOVE_TO: // Moves the cup to selected dispenser
+					belt.moveToDispenser(dispensers[action.getValue()]);
+					break;
+				
+				case RecipeAction.DISPENSE: // Dispenses liquid from the current dispenser
+					if(belt.getCurrentDispenser() != -1) { // Do not dispense if at start
+						dispensers[belt.getCurrentDispenser()].dispenseLiquid(action.getValue());
+					}
+					break;
+			}
+		}
+		belt.moveToStart();
+		belt.reset();
 	}
 }

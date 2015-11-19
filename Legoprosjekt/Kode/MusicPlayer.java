@@ -3,7 +3,7 @@ import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
 
-class MusicPlayer {
+public class MusicPlayer {
 
 	private String fileName;
 	private boolean playList;

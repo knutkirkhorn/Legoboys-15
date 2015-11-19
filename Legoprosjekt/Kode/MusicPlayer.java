@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class MusicPlayer {
 
 	private String fileName;
-	private boolean playList;
+	private boolean playList = false;
 
 	//Constructor which takes filename and soundvolume as argument
 	public MusicPlayer(String fileName, int soundVolume) {
@@ -26,27 +26,27 @@ public class MusicPlayer {
 			loopSongs();
 			//Play all songs
 			for (String song: songList) {
+				playSongInThread(song);
+			}
+		} else {
+			//Thread to multitask sound so the music play while the program goes.
+			playSongInThread(fileName);
+		}
+	}
+
+	private void playSongInThread(String songFileName){
+		final String sFileName = songFileName;
+		Runnable task = new Runnable() {
+			public void run() {
 				try {
-					File fileToPlay = new File(song);
+					File fileToPlay = new File(sFileName);
 					int wavFileLength = MakeNoise(fileToPlay);
 				} catch (Exception ex) {
 					System.out.println(ex);
 				}
 			}
-		} else {
-			//Thread to multitask sound so the music play while the program goes.
-			Runnable task = new Runnable() {
-				public void run() {
-					try {
-						File fileToPlay = new File(fileName);
-						int wavFileLength = MakeNoise(fileToPlay);
-					} catch (Exception ex) {
-						System.out.println(ex);
-					}
-				}
-			};
-			new Thread(task).start();
-		}
+		};
+		new Thread(task).start();
 	}
 
 	public static int MakeNoise(File file) throws Exception {
@@ -57,7 +57,7 @@ public class MusicPlayer {
 	//Loop through songs (.wav) in lejos ev3 robot and put them in a playlist (array)
 	private void loopSongs() {
 		//List all files in the lejosFolder in an array
-		File[] files = new File("").listFiles();
+		File[] files = new File(".").listFiles();
 
 		//Loop through files in ev3 robot
 		for (File file: files) {

@@ -30,7 +30,7 @@ public class Main {
 	//Entry point and main method of application
 	public static void main(String[] args) {
 		//Start music
-		MusicPlayer mPlayer = new MusicPlayer("broilerjul.wav", 100);
+		MusicPlayer mPlayer = new MusicPlayer(100, true);//MusicPlayer("broilerjul.wav", 100);
 		mPlayer.playMusic();
 
 		// Set instances of EV3 components
@@ -130,7 +130,7 @@ public class Main {
 				break;
 		}
 	}
-	
+
 	// Executes the selected recipe, and resets the belt
 	private static void executeRecipe(Recipe recipe) {
 		for(RecipeAction action : recipe.getActions()) {
@@ -138,7 +138,7 @@ public class Main {
 				case RecipeAction.MOVE_TO: // Moves the cup to selected dispenser
 					belt.moveToDispenser(dispensers[action.getValue()]);
 					break;
-				
+
 				case RecipeAction.DISPENSE: // Dispenses liquid from the current dispenser
 					if(belt.getCurrentDispenser() != -1) { // Do not dispense if at start
 						dispensers[belt.getCurrentDispenser()].dispenseLiquid(action.getValue());

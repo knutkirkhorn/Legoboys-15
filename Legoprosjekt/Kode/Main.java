@@ -30,8 +30,8 @@ public class Main {
 	//Entry point and main method of application
 	public static void main(String[] args) {
 		//Start music
-		MusicPlayer mPlayer = new MusicPlayer(100, true);//MusicPlayer("broilerjul.wav", 100);
-		mPlayer.playMusic();
+		//MusicPlayer mPlayer = new MusicPlayer("broilerjul.wav", 100);
+		//mPlayer.playMusic();
 
 		// Set instances of EV3 components
 		brick = BrickFinder.getDefault();
@@ -49,8 +49,8 @@ public class Main {
 	// Creates the Dispenser instances
 	private static void initializeDispensers() {
 		dispensers = new Dispenser[3]; // 1 dispenser for testing
-		dispensers[0] = new Dispenser(0, Motor.B, 445, 2000); // First dispenser uses motor B
-		dispensers[1] = new Dispenser(1, Motor.C, 760, 2000); // Second dispenser uses motor C
+		dispensers[0] = new Dispenser(0, Motor.B, 490, 2000); // First dispenser uses motor B
+		dispensers[1] = new Dispenser(1, Motor.C, 830, 2000); // Second dispenser uses motor C
 		dispensers[2] = new Dispenser(2, Motor.D, 1032, 2000); // Third dispenser uses motor D
 	}
 

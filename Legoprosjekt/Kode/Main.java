@@ -49,9 +49,9 @@ public class Main {
 	// Creates the Dispenser instances
 	private static void initializeDispensers() {
 		dispensers = new Dispenser[3]; // 1 dispenser for testing
-		dispensers[0] = new Dispenser(0, Motor.B, 445, 1000); // First dispenser uses motor B
-		dispensers[1] = new Dispenser(1, Motor.C, 760, 1000); // Second dispenser uses motor C
-		dispensers[2] = new Dispenser(2, Motor.D, 1032, 1000); // Third dispenser uses motor D
+		dispensers[0] = new Dispenser(0, Motor.B, 445, 2000); // First dispenser uses motor B
+		dispensers[1] = new Dispenser(1, Motor.C, 760, 2000); // Second dispenser uses motor C
+		dispensers[2] = new Dispenser(2, Motor.D, 1032, 2000); // Third dispenser uses motor D
 	}
 
 	// Displays the menu and gets input

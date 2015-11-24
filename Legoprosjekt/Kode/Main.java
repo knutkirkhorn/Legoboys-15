@@ -21,7 +21,7 @@ public class Main {
 
 	// The menu component
 	private static GraphicMenu menu;
-	private static String[] menuTitles	= 	new String[] { "Fifty-Fifty",	"Jagermaister",		"Bacardi",		"Kalibrer" 	};
+	private static String[] menuTitles	= 	new String[] { "Fifty-Fifty",	"Drink 1",		     "Drink 2",		"3/4th-1/4th" 	};
 	private static String[] menuIcons	= 	new String[] { Icons.TEST,		Icons.JAGER,		Icons.BACARDI,	Icons.TOOLS	};
 
 	// Indicates if the program should keep running
@@ -71,29 +71,38 @@ public class Main {
 				break;
 
 			case 0: // Recipe 1 - Fifty-Fifty from both dispensers
-				Recipe FiftyMix = new Recipe();
-				FiftyMix.addAction(RecipeAction.MOVE_TO, 0);
-				FiftyMix.addAction(RecipeAction.DISPENSE, 5000);
-				FiftyMix.addAction(RecipeAction.MOVE_TO, 1);
-				FiftyMix.addAction(RecipeAction.DISPENSE, 5000);
-				executeRecipe(FiftyMix);
+				belt.reset();
+				belt.moveToDispenser(dispensers[0]);
+				dispensers[0].dispenseLiquid(5000);
+				belt.moveToDispenser(dispensers[1]);
+				dispensers[1].dispenseLiquid(5000);
+				belt.moveToStart();
+				belt.reset();
 				break;
 
 			case 1: // Recipe 2 - Only dispenser 1
-				Recipe JaegerMix = new Recipe();
-				JaegerMix.addAction(RecipeAction.MOVE_TO, 0);
-				JaegerMix.addAction(RecipeAction.DISPENSE, 10000);
-				executeRecipe(JaegerMix);
+				belt.reset();
+				belt.moveToDispenser(dispensers[0]);
+				dispensers[0].dispenseLiquid(10000);
+				belt.moveToStart();
+				belt.reset();
 				break;
 
 			case 2: // Recipe 3 - Only dispenser 2
-				Recipe BacardiMix = new Recipe();
-				BacardiMix.addAction(RecipeAction.MOVE_TO, 1);
-				BacardiMix.addAction(RecipeAction.DISPENSE, 10000);
-				executeRecipe(BacardiMix);
+				belt.reset();
+				belt.moveToDispenser(dispensers[1]);
+				dispensers[1].dispenseLiquid(10000);
+				belt.moveToStart();
+				belt.reset();
 				break;
 
-			case 3: // Calibrate the belt (lets us move it back to start position)
+			case 3: // Recipe 4 - 3 quarters - 1 Quarters
+				belt.reset();
+				belt.moveToDispenser(dispensers[0]);
+				dispensers[0].dispenseLiquid(7500);
+				belt.moveToDispenser(dispensers[1]);
+				dispensers[1].dispenseLiquid(2500);
+				belt.moveToStart();
 				belt.reset();
 				break;
 		}

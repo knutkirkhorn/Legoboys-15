@@ -21,7 +21,7 @@ public class Main {
 
 	// The menu component
 	private static GraphicMenu menu;
-	private static String[] menuTitles	= 	new String[] { "Testprogram",	"Jagermaister",		"Bacardi",		"Kalibrer" 	};
+	private static String[] menuTitles	= 	new String[] { "Fifty-Fifty",	"Jagermaister",		"Bacardi",		"Kalibrer" 	};
 	private static String[] menuIcons	= 	new String[] { Icons.TEST,		Icons.JAGER,		Icons.BACARDI,	Icons.TOOLS	};
 
 	// Indicates if the program should keep running
@@ -70,59 +70,27 @@ public class Main {
 				keepRunning = false;
 				break;
 
-			case 0: // Recipe 1 here (Placeholder for testing)
-				lcd.clear();
-
-				for (int i = 0; i < 5; i++) {
-					belt.moveToDispenser(dispensers[0]);
-					dispensers[0].dispenseLiquid(20000);
-					// belt.moveToDispenser(dispensers[1]);
-					// Delay.msDelay(250);
-					// belt.moveToDispenser(dispensers[0]);
-					// Delay.msDelay(250);
-
-					// belt.moveToDispenser(dispensers[0]);
-					// Delay.msDelay(250);
-					// belt.moveToDispenser(dispensers[1]);
-					// Delay.msDelay(250);
-					// belt.moveToDispenser(dispensers[2]);
-					// Delay.msDelay(250);
-
-					belt.moveToStart();
-					belt.reset();
-					Delay.msDelay(500);
-				}
+			case 0: // Recipe 1 - Fifty-Fifty from both dispensers
+				Recipe FiftyMix = new Recipe();
+				FiftyMix.addAction(RecipeAction.MOVE_TO, 0);
+				FiftyMix.addAction(RecipeAction.DISPENSE, 5000);
+				FiftyMix.addAction(RecipeAction.MOVE_TO, 1);
+				FiftyMix.addAction(RecipeAction.DISPENSE, 5000);
+				executeRecipe(FiftyMix);
 				break;
 
-			case 1:
-				//Move to dispenser 1
-				belt.moveToDispenser(dispensers[1]);
-				dispensers[1].dispenseLiquid(10000);
-				Delay.msDelay(1000);
-
-				//Kan endre dette til:
-				//doDispenserShit(1, 10000, 1000);
-
-				//Move to dispenser 2
-				belt.moveToDispenser(dispensers[0]);
-				dispensers[0].dispenseLiquid(10000);
-				Delay.msDelay(1000);
-
-
-				//Reset
-				belt.moveToStart();
-				belt.reset();
-				Delay.msDelay(500);
-
+			case 1: // Recipe 2 - Only dispenser 1
+				Recipe JaegerMix = new Recipe();
+				JaegerMix.addAction(RecipeAction.MOVE_TO, 0);
+				JaegerMix.addAction(RecipeAction.DISPENSE, 10000);
+				executeRecipe(JaegerMix);
 				break;
 
-			case 2:
-				Recipe juiceMix = new Recipe();
-				juiceMix.addAction(RecipeAction.MOVE_TO, 0);
-				juiceMix.addAction(RecipeAction.DISPENSE, 5000);
-				juiceMix.addAction(RecipeAction.MOVE_TO, 1);
-				juiceMix.addAction(RecipeAction.DISPENSE, 5000);
-				executeRecipe(juiceMix);
+			case 2: // Recipe 3 - Only dispenser 2
+				Recipe BacardiMix = new Recipe();
+				BacardiMix.addAction(RecipeAction.MOVE_TO, 1);
+				BacardiMix.addAction(RecipeAction.DISPENSE, 10000);
+				executeRecipe(BacardiMix);
 				break;
 
 			case 3: // Calibrate the belt (lets us move it back to start position)

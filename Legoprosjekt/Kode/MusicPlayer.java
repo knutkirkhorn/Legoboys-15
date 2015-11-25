@@ -53,7 +53,7 @@ public class MusicPlayer {
 		return Sound.playSample(file);
 	}
 
-	List<String> songList = new ArrayList <String>();
+	private List<String> songList = new ArrayList <String>();
 	//Loop through songs (.wav) in lejos ev3 robot and put them in a playlist (array)
 	private void loopSongs() {
 		//List all files in the lejosFolder in an array

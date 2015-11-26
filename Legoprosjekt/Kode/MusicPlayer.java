@@ -40,7 +40,7 @@ public class MusicPlayer {
 			public void run() {
 				try {
 					File fileToPlay = new File(sFileName);
-					int wavFileLength = MakeNoise(fileToPlay);
+					int wavFileLength = makeNoise(fileToPlay);
 				} catch (Exception ex) {
 					System.out.println(ex);
 				}
@@ -49,7 +49,7 @@ public class MusicPlayer {
 		new Thread(task).start();
 	}
 
-	public static int MakeNoise(File file) throws Exception {
+	private static int makeNoise(File file) throws Exception {
 		return Sound.playSample(file);
 	}
 
